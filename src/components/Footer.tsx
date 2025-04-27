@@ -105,7 +105,7 @@ const Footer = () => {
           <div className="flex justify-center gap-2 text-black font-light">
             <span>US</span> <span>English</span>
           </div>
-          <div className="flex justify-center gap-5 text-black font-light">
+          <div className="md:flex grid justify-center gap-5 text-black font-light">
             <div>Copyright © 2019-2024 Amway</div>
             <div className="flex justify-center flex-wrap gap-4 text-gray-500">
               <span>SiteMap</span>
