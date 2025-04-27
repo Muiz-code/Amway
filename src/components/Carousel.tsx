@@ -59,10 +59,7 @@ const Carousel: React.FC<CarouselProps> = ({
   };
 
   return (
-    <div
-      className="relative w-[100%] overflow-hidden  shadow-lg"
-      style={{ height }}
-    >
+    <div className="relative w-[100%] md:h-[400px] h-[300px] overflow-hidden  shadow-lg">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
