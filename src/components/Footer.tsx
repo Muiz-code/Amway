@@ -80,7 +80,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className=" grid grid-cols-2 md:grid-cols-4 gap-10 py-10 w-[100%] pl-[3.5%]">
+        <div className=" grid grid-cols-2 md:grid-cols-4 gap-10 py-5 w-[100%] md:pl-[5.5%] pl-[10%]">
           {footerData.map((section, idx) => (
             <FooterSection
               key={idx}
