@@ -22,11 +22,7 @@ interface CarouselProps {
   height?: string;
 }
 
-const Carousel: React.FC<CarouselProps> = ({
-  items,
-  interval = 3000,
-  height = "400px",
-}) => {
+const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
 
@@ -59,7 +55,7 @@ const Carousel: React.FC<CarouselProps> = ({
   };
 
   return (
-    <div className="relative w-[100%] md:h-[400px] h-[300px] overflow-hidden  shadow-lg">
+    <div className="relative w-[100%] md:h-[75vh] h-[35vh] overflow-hidden  shadow-lg">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
