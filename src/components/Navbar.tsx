@@ -11,7 +11,6 @@ import {
 import { navLinks, NavLinkType } from "../data/navigation";
 import { IoClose, IoMenu, IoPersonOutline } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
-import { div } from "framer-motion/client";
 import { MdDeleteOutline } from "react-icons/md";
 
 const Navbar = () => {
