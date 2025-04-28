@@ -55,7 +55,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
   };
 
   return (
-    <div className="relative w-[100%] md:h-[75vh] h-[35vh] overflow-hidden shadow-lg">
+    <div className="relative w-[100%] md:h-[75vh] h-[50vh] overflow-hidden shadow-lg">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
