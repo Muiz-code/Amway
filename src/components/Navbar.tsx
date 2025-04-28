@@ -18,11 +18,6 @@ const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
 
-  const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Product 1", price: "$70" },
-    { id: 2, name: "Product 2", price: "$35" },
-  ]);
-
   const toggleDropdown = (label: string) => {
     setActiveDropdown((prev) => (prev === label ? null : label));
   };
@@ -47,6 +42,12 @@ const Navbar = () => {
       className={`object-contain ${className}`}
     />
   );
+
+  const [cartItems, setCartItems] = useState([
+    { id: 1, name: "Product 1", price: "$70" },
+    { id: 2, name: "Product 2", price: "$35" },
+  ]);
+  
   const removeFromCart = (id: number) => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
@@ -60,12 +61,12 @@ const Navbar = () => {
   };
   useEffect(() => {
     if (cartOpen || isOpen) {
-      document.body.style.overflow = "hidden"; // Disable scroll
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"; // Enable scroll back
+      document.body.style.overflow = "auto";
     }
     return () => {
-      document.body.style.overflow = "auto"; // Cleanup when unmount
+      document.body.style.overflow = "auto";
     };
   }, [cartOpen, isOpen]);
 

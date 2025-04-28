@@ -15,7 +15,7 @@ import Footer from "../components/Footer";
 const Home = () => {
   return (
     <div>
-      <Carousel items={caroselItems} interval={6000} height="75vh" />
+      <Carousel items={caroselItems} interval={3000} height="75vh" />
 
       {/* Quality Products */}
       <div className="flex flex-col items-center justify-center mt-10">

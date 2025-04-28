@@ -26,14 +26,16 @@ interface CarouselProps {
 const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
   const [current, setCurrent] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
+    if (isPaused) return;
     const timer = setInterval(() => {
       slideNext();
     }, interval);
 
     return () => clearInterval(timer);
-  }, [current, items.length, interval]);
+  }, [current, items.length, interval, isPaused]);
 
   const slideNext = () => {
     setDirection(1);
@@ -56,7 +58,11 @@ const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
   };
 
   return (
-    <div className="relative w-[100%] md:h-[75vh] h-[50vh] overflow-hidden shadow-lg">
+    <div
+      className="relative w-[100%] md:h-[75vh] h-[50vh] overflow-hidden shadow-lg"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={current}
@@ -66,7 +72,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
           animate="center"
           exit="exit"
           transition={{ duration: 0.5 }}
-          className={`absolute top-0 left-0 w-[100%] h-full `}
+          className="absolute top-0 left-0 w-[100%] h-full"
         >
           <img
             src={items[current].image}
@@ -81,10 +87,10 @@ const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
               className={`md:w-[40%] w-[100%] flex flex-col ${items[current].moreStyle2}`}
             >
               <img src={items[current].image2} className="w-[9%] mb-3" />
-              <p className={` ${items[current].pStyle1}`}>
+              <p className={`${items[current].pStyle1}`}>
                 {items[current].description1}
               </p>
-              <h2 className={` ${items[current].hStyle}`}>
+              <h2 className={`${items[current].hStyle}`}>
                 {items[current].title}
               </h2>
               <p className={`${items[current].pStyle2}`}>
@@ -92,7 +98,7 @@ const Carousel: React.FC<CarouselProps> = ({ items, interval = 3000 }) => {
               </p>
               <Link to="/" className="mt-4">
                 <button
-                  className={`border-1 text-[13px] border-dashed rounded-full px-2 py-2 ${items[current].btnStyle}  cursor-pointer hover:scale-110 transition duration-300 ease-in-out`}
+                  className={`border-1 text-[13px] border-dashed rounded-full px-2 py-2 ${items[current].btnStyle} cursor-pointer hover:scale-110 transition duration-300 ease-in-out`}
                 >
                   Shop Now
                 </button>
