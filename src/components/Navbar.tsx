@@ -18,9 +18,8 @@ const Navbar = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
 
-  // Mock cart items (replace later with real cart state)
   const [cartItems, setCartItems] = useState([
-    { id: 1, name: "Product 1", price: "$20" },
+    { id: 1, name: "Product 1", price: "$70" },
     { id: 2, name: "Product 2", price: "$35" },
   ]);
 
@@ -52,10 +51,8 @@ const Navbar = () => {
     setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
-  // Calculate total price
   const calculateTotal = () => {
     const total = cartItems.reduce((sum, item) => {
-      // Remove $ sign and convert to number
       const price = parseFloat(item.price.replace("$", ""));
       return sum + price;
     }, 0);
@@ -117,7 +114,6 @@ const Navbar = () => {
             <IoPersonOutline className="rounded-[100%]" size={22} />
           </NavLink>
 
-          {/* Cart Icon with Badge */}
           <div
             className="relative cursor-pointer"
             onClick={() => setCartOpen(true)}
@@ -133,7 +129,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Dropdown backdrop and content */}
+      {/* Dropdown and it's content */}
       <AnimatePresence>
         {activeDropdown && (
           <>
@@ -182,7 +178,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Mobile Menu */}
+      {/* The Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -273,11 +269,10 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Cart Side Panel */}
+      {/* Cart SideBar */}
       <AnimatePresence>
         {cartOpen && (
           <>
-            {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.5 }}
@@ -286,7 +281,6 @@ const Navbar = () => {
               className="fixed inset-0 bg-black z-40"
             />
 
-            {/* Cart Sidebar */}
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
@@ -302,7 +296,7 @@ const Navbar = () => {
                 </div>
                 <button
                   onClick={() => setCartOpen(false)}
-                  className="text-black font-bold text-lg"
+                  className="text-black font-bold text-lg cursor-pointer hover:scale-105 transition-all"
                 >
                   ✕
                 </button>
@@ -322,7 +316,7 @@ const Navbar = () => {
                   cartItems.map((item) => (
                     <div
                       key={item.id}
-                      className="flex justify-between items-center border-b pb-2 px-2"
+                      className="flex justify-between items-center border-b border-[#b9b9b95b] pb-2 px-2"
                     >
                       <div>
                         <h3 className="font-semibold">{item.name}</h3>
@@ -330,7 +324,7 @@ const Navbar = () => {
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 text-lg cursor-pointer"
+                        className="text-red-500 text-lg cursor-pointer hover:scale-105 transition-all"
                       >
                         <MdDeleteOutline />
                       </button>
@@ -339,7 +333,6 @@ const Navbar = () => {
                 )}
               </div>
 
-              {/* Cart Total and Checkout */}
               {cartItems.length > 0 && (
                 <div className="pt-4 mt-4 border-t border-[#b9b9b95b] py-10 px-5 ">
                   <div className="flex justify-center items-center mb-4">
@@ -347,7 +340,7 @@ const Navbar = () => {
                       Total: {calculateTotal()}
                     </span>
                   </div>
-                  <button className="w-full bg-[#FF90BB] text-white text-[12px] font-bold py-[10px] rounded hover:bg-pink-500 transition-all cursor-pointer">
+                  <button className="w-full bg-[#FF90BB] text-white text-[12px] font-bold py-[10px] rounded hover:bg-pink-500 hover:scale-105 transition-all cursor-pointer">
                     Pay: {calculateTotal()}
                   </button>
                 </div>
