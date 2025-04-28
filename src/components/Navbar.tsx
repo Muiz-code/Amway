@@ -289,7 +289,7 @@ const Navbar = () => {
               className="fixed top-0 right-0 w-[70%] md:w-[20%] h-full bg-white z-50 shadow-lg flex flex-col"
             >
               <div className="flex justify-between items-center mb-4 border-b border-[#b9b9b95b]  px-2 pt-3 pb-2 mt-1">
-                <div className="items-center w-[17%] hidden md:flex">
+                <div className="items-center w-[17%]">
                   <Link to={"/"}>
                     <Logo className="w-full" />
                   </Link>
