@@ -11,10 +11,19 @@ import {
 import { navLinks, NavLinkType } from "../data/navigation";
 import { IoClose, IoMenu, IoPersonOutline } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
+import { div } from "framer-motion/client";
+import { MdDeleteOutline } from "react-icons/md";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+
+  // Mock cart items (replace later with real cart state)
+  const [cartItems, setCartItems] = useState([
+    { id: 1, name: "Product 1", price: "$20" },
+    { id: 2, name: "Product 2", price: "$35" },
+  ]);
 
   const toggleDropdown = (label: string) => {
     setActiveDropdown((prev) => (prev === label ? null : label));
@@ -40,6 +49,19 @@ const Navbar = () => {
       className={`object-contain ${className}`}
     />
   );
+  const removeFromCart = (id: number) => {
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  // Calculate total price
+  const calculateTotal = () => {
+    const total = cartItems.reduce((sum, item) => {
+      // Remove $ sign and convert to number
+      const price = parseFloat(item.price.replace("$", ""));
+      return sum + price;
+    }, 0);
+    return `$${total.toFixed(2)}`;
+  };
 
   return (
     <div className="relative">
@@ -70,7 +92,7 @@ const Navbar = () => {
                 <>
                   <button
                     onClick={() => toggleDropdown(item.label)}
-                    className="py-2 px-4  hover:text-[#FF90BB] flex items-center gap-2"
+                    className="py-2 px-4 hover:text-[#FF90BB] flex items-center gap-2"
                   >
                     {item.label}
                     <span className="ml-1 text-lg">
@@ -91,17 +113,28 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <div className="flex gap-6">
+        <div className="flex gap-6 items-center">
           <NavLink to={"/"}>
-            <IoPersonOutline className="rounded-[100%] md:rounded-[100%]" />
+            <IoPersonOutline className="rounded-[100%]" size={22} />
           </NavLink>
-          <div className="border-r-1 border-[#82818141]"></div>
-          <NavLink to={"/"}>
-            <FiShoppingCart />
-          </NavLink>
+
+          {/* Cart Icon with Badge */}
+          <div
+            className="relative cursor-pointer"
+            onClick={() => setCartOpen(true)}
+          >
+            <FiShoppingCart
+              className="text-black hover:text-[#FF90BB]"
+              size={22}
+            />
+            <div className="absolute -top-2 -right-2 bg-[#FF90BB] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+              {cartItems.length}
+            </div>
+          </div>
         </div>
       </nav>
 
+      {/* Dropdown backdrop and content */}
       <AnimatePresence>
         {activeDropdown && (
           <>
@@ -150,6 +183,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -164,20 +198,7 @@ const Navbar = () => {
                 <Logo className="w-[30%]" />
               </Link>
               <button onClick={() => setIsOpen(false)}>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <IoClose size={24} />
               </button>
             </div>
 
@@ -204,7 +225,6 @@ const Navbar = () => {
                         </span>
                       </button>
 
-                      {/* Submenu */}
                       <AnimatePresence>
                         {activeDropdown === item.label && (
                           <motion.ul
@@ -254,6 +274,91 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
+      {/* Cart Side Panel */}
+      <AnimatePresence>
+        {cartOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.5 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setCartOpen(false)}
+              className="fixed inset-0 bg-black z-40"
+            />
+
+            {/* Cart Sidebar */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.3 }}
+              className="fixed top-0 right-0 w-[70%] md:w-[20%] h-full bg-white z-50 shadow-lg flex flex-col"
+            >
+              <div className="flex justify-between items-center mb-4 border-b border-[#b9b9b95b]  px-2 pt-3 pb-2 mt-1">
+                <div className="items-center w-[17%] hidden md:flex">
+                  <Link to={"/"}>
+                    <Logo className="w-full" />
+                  </Link>
+                </div>
+                <button
+                  onClick={() => setCartOpen(false)}
+                  className="text-black font-bold text-lg"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="flex  mb-4 px-2 pb-2">
+                <h3 className="text-[#fd0f6ad7] text-[12px]">Cart Products</h3>
+              </div>
+              {/* Cart Items */}
+              <div className="flex-1 overflow-auto flex flex-col gap-4">
+                {cartItems.length === 0 ? (
+                  <div className="flex justify-center items-center h-full">
+                    <p className="text-gray-500 text-[12px]">
+                      No Products in your cart.
+                    </p>
+                  </div>
+                ) : (
+                  cartItems.map((item) => (
+                    <div
+                      key={item.id}
+                      className="flex justify-between items-center border-b pb-2 px-2"
+                    >
+                      <div>
+                        <h3 className="font-semibold">{item.name}</h3>
+                        <p className="text-sm text-gray-600">{item.price}</p>
+                      </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="text-red-500 text-lg cursor-pointer"
+                      >
+                        <MdDeleteOutline />
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              {/* Cart Total and Checkout */}
+              {cartItems.length > 0 && (
+                <div className="pt-4 mt-4 border-t border-[#b9b9b95b] py-10 px-5 ">
+                  <div className="flex justify-center items-center mb-4">
+                    <span className="text-[12px] font-bold">
+                      Total: {calculateTotal()}
+                    </span>
+                  </div>
+                  <button className="w-full bg-[#FF90BB] text-white text-[12px] font-bold py-[10px] rounded hover:bg-pink-500 transition-all cursor-pointer">
+                    Pay: {calculateTotal()}
+                  </button>
+                </div>
+              )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Page Content */}
       <div className="md:pt-[67px] pt-[57px]">
         <Outlet />
       </div>

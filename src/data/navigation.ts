@@ -114,7 +114,7 @@ export const navLinks = [
     ],
   },
 
-  { path: "/", label: "Discover" },
-  { path: "/", label: "Start A Business" },
-  { path: "/", label: "Amway Insider" },
+  { path: "/c", label: "Discover" },
+  { path: "/b", label: "Start A Business" },
+  { path: "/a", label: "Amway Insider" },
 ];
